@@ -75,33 +75,50 @@ export default function RoleCenter({ toast }) {
 
       {/* 权限配置弹窗 — 可勾选矩阵 */}
       {permTarget && (
-        <Modal title={`配置权限 · ${permTarget.name}`} size="modal-lg" onClose={() => setPermTarget(null)}>
+        <Modal title={`配置权限 · ${permTarget.name}`} size="modal-xl" onClose={() => setPermTarget(null)}>
           <div className="modal-body" style={{ marginBottom: 12 }}>
-            勾选该角色在各模块下可执行的操作。点击模块名可全选/取消该行。
+            勾选该角色在各模块下可执行的操作。可点击行末「全选」快速勾满整行。
           </div>
           <table className="perm-matrix">
             <thead>
               <tr>
-                <th>模块</th>
-                {ACTIONS.map(a => <th key={a}>{a}</th>)}
+                <th style={{ width: 140 }}>模块</th>
+                <th className="perm-col-view">查看</th>
+                <th className="perm-col-add">新增</th>
+                <th className="perm-col-edit">编辑</th>
+                <th className="perm-col-del">删除</th>
+                <th style={{ width: 70, color: 'var(--text3)', fontWeight: 400 }}>快捷</th>
               </tr>
             </thead>
             <tbody>
-              {MODULES.map(m => (
-                <tr key={m}>
-                  <td style={{ cursor: 'pointer' }} onClick={() => toggleModuleAll(m)} title="点击全选/取消整行">{m}</td>
-                  {ACTIONS.map(a => (
-                    <td key={a}>
-                      <input type="checkbox" className="perm-check"
-                        checked={(draftPerms[m] || []).includes(a)}
-                        onChange={() => togglePerm(m, a)} />
+              {MODULES.map(m => {
+                const checked = draftPerms[m] || []
+                const allSelected = checked.length === ACTIONS.length
+                return (
+                  <tr key={m}>
+                    <td style={{ fontWeight: 500 }}>{m}</td>
+                    {ACTIONS.map((a, i) => {
+                      const colCls = ['perm-col-view','perm-col-add','perm-col-edit','perm-col-del'][i]
+                      return (
+                        <td key={a} style={{ background: checked.includes(a) ? undefined : undefined }}>
+                          <input type="checkbox" className="perm-check"
+                            style={{ accentColor: ['#185FA5','#1A8546','#B87A10','#A32D2D'][i] }}
+                            checked={checked.includes(a)}
+                            onChange={() => togglePerm(m, a)} />
+                        </td>
+                      )
+                    })}
+                    <td>
+                      <button className="perm-all-btn" onClick={() => toggleModuleAll(m)}>
+                        {allSelected ? '清空' : '全选'}
+                      </button>
                     </td>
-                  ))}
-                </tr>
-              ))}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
-          <div style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 4 }}>
+          <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 8, marginBottom: 4 }}>
             提示：权限粒度与平台菜单一一对应，后续新增模块时此矩阵自动扩展。
           </div>
           <div className="ff" style={{ marginTop: 8, paddingTop: '0.75rem' }}>

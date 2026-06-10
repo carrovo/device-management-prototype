@@ -1,5 +1,3 @@
-import { IconUser, IconLock } from './Icons.jsx'
-
 function FeishuIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{flexShrink:0}}>
@@ -14,45 +12,29 @@ function FeishuIcon() {
 export default function Login({ onLogin }) {
   return (
     <div className="login-screen">
-      <div className="login-panel-left">
-        <div className="login-brand">
-          <div className="login-brand-icon">
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-              <rect width="36" height="36" rx="9" fill="rgba(255,255,255,0.12)"/>
-              <path d="M10 26 L18 10 L26 26 L21 26 L18 20 L15 26 Z" fill="white"/>
-            </svg>
+      <div className="login-wrap">
+        <div className="login-logo">
+          <div className="login-logo-title">
+            <span className="login-logo-dot" />
+            云控平台
           </div>
-          <div className="login-brand-name">云控平台</div>
-          <div className="login-brand-tagline">设备全生命周期管理</div>
-          <div className="login-brand-by">by 智平方</div>
+          <div className="login-logo-sub">设备全生命周期管理 · 智平方</div>
         </div>
-        <div className="login-brand-footer">
-          仅限内部人员使用
-        </div>
-      </div>
-
-      <div className="login-panel-right">
         <div className="login-card">
-          <div className="login-card-title">欢迎回来</div>
-          <div className="login-card-sub">登录以继续使用设备管理系统</div>
-
           <button className="feishu-btn" onClick={onLogin}>
             <FeishuIcon />
             使用飞书账号登录
           </button>
-          <div className="feishu-hint">推荐 · 飞书账号首次登录默认游客权限</div>
-
+          <div className="feishu-hint">推荐 · 首次登录默认游客权限</div>
           <div className="divider">
-            <div className="divider-line" />
-            <span className="divider-text">或使用账号密码</span>
-            <div className="divider-line" />
+            <div className="divider-line" /><span className="divider-text">或使用账号密码</span><div className="divider-line" />
           </div>
-
           <div className="login-label">账号</div>
           <input className="login-input" placeholder="请输入账号" />
           <div className="login-label">密码</div>
           <input className="login-input" type="password" placeholder="请输入密码" />
           <button className="login-submit" onClick={onLogin}>登 录</button>
+          <div className="login-hint">仅限智平方内部人员使用</div>
         </div>
       </div>
     </div>

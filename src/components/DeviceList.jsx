@@ -22,7 +22,10 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
     online: data.devices.filter(d => d.conn === '在线').length,
     operating: data.devices.filter(d => d.lifecycle === '在线运营').length,
     registered: data.devices.filter(d => d.lifecycle === '生产注册').length,
+    offline: data.devices.filter(d => d.conn === '离线').length,
+    alert: data.devices.filter(d => d.health && Object.values(d.health).includes('异常')).length,
   }
+  const alertCount = (d) => !d.health ? 0 : Object.values(d.health).filter(v => v === '异常').length
 
   // 应用筛选
   const doSearch = () => setApplied({ keyword: keyword.trim().toLowerCase(), lc: fLC, conn: fConn, type: fType })
@@ -96,6 +99,8 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
         <div className="stat-chip"><div><div className="stat-num">{stats.operating}</div><div className="stat-label">在线运营</div></div></div>
         <div className="stat-chip"><div><div className="stat-num">{stats.online}</div><div className="stat-label">当前在线</div></div></div>
         <div className="stat-chip"><div><div className="stat-num">{stats.registered}</div><div className="stat-label">生产注册</div></div></div>
+        <div className="stat-chip stat-chip-warn"><div><div className="stat-num stat-num-warn">{stats.offline}</div><div className="stat-label">当前离线</div></div></div>
+        <div className="stat-chip stat-chip-danger"><div><div className="stat-num stat-num-danger">{stats.alert}</div><div className="stat-label">告警设备</div></div></div>
       </div>
 
       <div className="tabs">
@@ -132,16 +137,22 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
             <table>
               <thead><tr>
                 <th>SN 号</th><th>名称</th><th>设备类型</th><th>生命周期状态</th><th>连接状态</th>
-                <th>电量</th><th>系统版本</th><th>注册时间</th><th>操作</th>
+                <th>告警</th><th>电量</th><th>系统版本</th><th>注册时间</th><th>操作</th>
               </tr></thead>
               <tbody>
                 {devices.length === 0 ? (
-                  <tr><td colSpan="9" className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
-                ) : devices.map(d => (
+                  <tr><td colSpan="10" className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
+                ) : devices.map(d => {
+                  const ac = alertCount(d)
+                  return (
                   <tr key={d.sn}>
                     <td>{d.sn}</td><td>{d.name}</td><td>{d.type}</td>
                     <td><span className={`badge ${LC_BADGE[d.lifecycle]}`}>{d.lifecycle}</span></td>
                     <td><span className={`badge ${CONN_BADGE[d.conn]}`}>{d.conn}</span></td>
+                    <td>{ac > 0
+                      ? <span className="badge b-error">{ac} 项</span>
+                      : <span style={{ color: 'var(--text3)', fontSize: 11 }}>—</span>}
+                    </td>
                     <td>{d.battery ?? <span style={{ color: 'var(--text3)' }}>—</span>}</td>
                     <td>{d.sysVersion}</td>
                     <td style={{ fontSize: 11 }}>{d.reg}</td>
@@ -153,7 +164,8 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
                       <button className="btn-link-danger" onClick={() => toast('原型演示：删除设备需二次确认，正式版本将弹出确认框')}>删除</button>
                     </td>
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
             </table>
           </div>
