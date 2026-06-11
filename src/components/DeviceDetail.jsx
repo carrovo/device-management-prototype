@@ -6,7 +6,7 @@ import Modal from './Modal.jsx'
 const RETIRE_STAGE = '退役'
 const OPERATOR = '张三（管理员）'
 
-export default function DeviceDetail({ device, currentProj, onBack, onEdit, toast, onDeviceChange }) {
+export default function DeviceDetail({ device, currentProj, onBack, onEdit, toast, onDeviceChange, isGuest }) {
   const [lifecycle, setLifecycle] = useState(device.lifecycle)
   const [assignee, setAssignee] = useState(device.assignee || {})
   const [showAdvance, setShowAdvance] = useState(false)
@@ -52,14 +52,16 @@ export default function DeviceDetail({ device, currentProj, onBack, onEdit, toas
           <span className={`badge ${LC_BADGE[lifecycle]}`}>{lifecycle}</span>
           <span className={`badge ${CONN_BADGE[d.conn]}`}>{d.conn}</span>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className="bs" onClick={() => onEdit(d)}><IconEdit /> 编辑</button>
-          {!isRetired && (
-            <button className="bd" onClick={() => setShowRetire(true)}>
-              <IconTrash /> 退役设备
-            </button>
-          )}
-        </div>
+        {!isGuest && (
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="bs" onClick={() => onEdit(d)}><IconEdit /> 编辑</button>
+            {!isRetired && (
+              <button className="bd" onClick={() => setShowRetire(true)}>
+                <IconTrash /> 退役设备
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* 生命周期流程 */}
@@ -71,7 +73,7 @@ export default function DeviceDetail({ device, currentProj, onBack, onEdit, toas
               <div className="lc-dot">{i < stageIdx ? '✓' : i + 1}</div>
               <div className="lc-label">{stage}</div>
               <div className="lc-assignee">{assignee?.[stage] || (i <= stageIdx ? '—' : '待进行')}</div>
-              {i === stageIdx && canAdvance && (
+              {i === stageIdx && canAdvance && !isGuest && (
                 <button
                   className="lc-advance-btn"
                   onClick={() => setShowAdvance(true)}

@@ -29,7 +29,7 @@ export default function Login({ onLogin }) {
             <FeishuIcon />
             使用飞书账号登录
           </button>
-          <div className="feishu-hint">推荐 · 飞书登录默认以管理员身份进入</div>
+          <div className="feishu-hint">推荐 · 飞书登录默认分配游客权限，如需提升权限请联系管理员</div>
           <div className="divider">
             <div className="divider-line" /><span className="divider-text">或使用账号密码</span><div className="divider-line" />
           </div>
@@ -59,6 +59,7 @@ export default function Login({ onLogin }) {
             </button>
           </div>
 
+          <div className="demo-login-note">两种身份均通过飞书登录，角色由管理员在用户中心分配</div>
           <div className="login-hint">仅限智平方内部人员使用</div>
         </div>
       </div>

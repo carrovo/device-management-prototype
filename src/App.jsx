@@ -64,6 +64,7 @@ export default function App() {
             onBack={() => setPage('devices')}
             onEdit={(d) => { setSelectedDevice(d); setPage('device-edit') }}
             onDeviceChange={(updated) => setSelectedDevice(updated)}
+            isGuest={isGuest}
             toast={toast} />
         )}
         {page === 'device-add' && (
@@ -75,11 +76,12 @@ export default function App() {
             onBack={() => setPage('device-detail')} onDone={() => setPage('device-detail')} toast={toast} />
         )}
         {page === 'projects' && (
-          <Projects onOpen={(name) => { setSelectedProject(name); setPage('project-detail') }} toast={toast} />
+          <Projects onOpen={(name) => { setSelectedProject(name); setPage('project-detail') }} isGuest={isGuest} toast={toast} />
         )}
         {page === 'project-detail' && selectedProject && (
           <ProjectDetail name={selectedProject} onBack={() => setPage('projects')}
             onDeviceDetail={(d) => { setSelectedDevice(d); setCurrentProj(selectedProject); setPage('device-detail') }}
+            isGuest={isGuest}
             toast={toast} />
         )}
         {page === 'alert-center' && <AlertCenter toast={toast} />}

@@ -3,7 +3,7 @@ import { PROJECT_DATA, LC_BADGE, CONN_BADGE } from '../data.js'
 import Modal from './Modal.jsx'
 import { IconPlus, IconEdit, IconTrash, IconChevronLeft, IconFile, IconDevice, IconAlert } from './Icons.jsx'
 
-export function Projects({ onOpen, toast }) {
+export function Projects({ onOpen, toast, isGuest }) {
   const [showAdd, setShowAdd] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
@@ -12,7 +12,7 @@ export function Projects({ onOpen, toast }) {
     <div className="page">
       <div className="page-header">
         <span className="page-title">项目管理</span>
-        <button className="bp" onClick={() => setShowAdd(true)}><IconPlus stroke="white" strokeWidth="2.5" /> 新建项目</button>
+        {!isGuest && <button className="bp" onClick={() => setShowAdd(true)}><IconPlus stroke="white" strokeWidth="2.5" /> 新建项目</button>}
       </div>
       <div className="info-box">
         项目是设备数据隔离的基本单元。所有设备必须归属于某个项目，跨项目数据互不可见。
@@ -22,10 +22,12 @@ export function Projects({ onOpen, toast }) {
           <div className="proj-card" key={name} onClick={() => onOpen(name)}>
             <div className="proj-card-header">
               <span className="proj-card-name"><span className="proj-status-dot" style={{ background: d.devices.some(x => x.conn === '在线') ? '#639922' : '#888780' }} />{name}</span>
-              <div className="proj-card-actions" onClick={e => e.stopPropagation()}>
-                <button className="bs" onClick={() => setEditTarget(name)}><IconEdit /> 编辑</button>
-                <button className="bd" onClick={() => setDeleteTarget(name)}><IconTrash /> 删除</button>
-              </div>
+              {!isGuest && (
+                <div className="proj-card-actions" onClick={e => e.stopPropagation()}>
+                  <button className="bs" onClick={() => setEditTarget(name)}><IconEdit /> 编辑</button>
+                  <button className="bd" onClick={() => setDeleteTarget(name)}><IconTrash /> 删除</button>
+                </div>
+              )}
             </div>
             <div className="proj-card-desc">{d.desc}</div>
             <div className="proj-card-meta">
@@ -79,7 +81,7 @@ export function Projects({ onOpen, toast }) {
   )
 }
 
-export function ProjectDetail({ name, onBack, onDeviceDetail, toast }) {
+export function ProjectDetail({ name, onBack, onDeviceDetail, toast, isGuest }) {
   const d = PROJECT_DATA[name]
   const alertCount = (dev) => !dev.health ? 0 : Object.values(dev.health).filter(v => v === '异常').length
 
@@ -91,10 +93,12 @@ export function ProjectDetail({ name, onBack, onDeviceDetail, toast }) {
           <span className="page-title">{name}</span>
           <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 2 }}>{d.desc}</div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className="bs" onClick={() => toast('原型演示：编辑项目弹窗见项目管理页')}><IconEdit /> 编辑项目</button>
-          <button className="bd" onClick={() => toast('原型演示：删除项目需二次确认')}><IconTrash /> 删除项目</button>
-        </div>
+        {!isGuest && (
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="bs" onClick={() => toast('原型演示：编辑项目弹窗见项目管理页')}><IconEdit /> 编辑项目</button>
+            <button className="bd" onClick={() => toast('原型演示：删除项目需二次确认')}><IconTrash /> 删除项目</button>
+          </div>
+        )}
       </div>
       <div className="card">
         <div className="sh"><IconFile /> 项目信息</div>

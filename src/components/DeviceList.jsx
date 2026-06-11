@@ -120,7 +120,7 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
 
       <div className="tabs">
         <div className={`tab ${tab === 'list' ? 'active' : ''}`} onClick={() => setTab('list')}>设备列表</div>
-        <div className={`tab ${tab === 'log' ? 'active' : ''}`} onClick={() => setTab('log')}>注册日志</div>
+        {!isGuest && <div className={`tab ${tab === 'log' ? 'active' : ''}`} onClick={() => setTab('log')}>注册日志</div>}
       </div>
 
       {tab === 'list' && (
@@ -149,7 +149,7 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
           </div>
 
           {/* 批量操作栏 */}
-          {selected.size > 0 && (
+          {!isGuest && selected.size > 0 && (
             <div className="batch-bar">
               <span className="batch-bar-count">已选 {selected.size} 台设备</span>
               <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
@@ -165,26 +165,30 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
           <div className="tw">
             <table>
               <thead><tr>
-                <th style={{ width: 36 }}>
-                  <input type="checkbox" className="perm-check"
-                    checked={devices.length > 0 && selected.size === devices.length}
-                    onChange={toggleAll} />
-                </th>
+                {!isGuest && (
+                  <th style={{ width: 36 }}>
+                    <input type="checkbox" className="perm-check"
+                      checked={devices.length > 0 && selected.size === devices.length}
+                      onChange={toggleAll} />
+                  </th>
+                )}
                 <th>SN 号</th><th>名称</th><th>设备类型</th><th>生命周期状态</th><th>连接状态</th>
                 <th>告警</th><th>电量</th><th>系统版本</th><th>注册时间</th><th>操作</th>
               </tr></thead>
               <tbody>
                 {devices.length === 0 ? (
-                  <tr><td colSpan="11" className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
+                  <tr><td colSpan={isGuest ? 10 : 11} className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
                 ) : devices.map(d => {
                   const ac = alertCount(d)
                   return (
                   <tr key={d.sn} className={selected.has(d.sn) ? 'row-selected' : ''}>
-                    <td onClick={e => e.stopPropagation()}>
-                      <input type="checkbox" className="perm-check"
-                        checked={selected.has(d.sn)}
-                        onChange={() => toggleSelect(d.sn)} />
-                    </td>
+                    {!isGuest && (
+                      <td onClick={e => e.stopPropagation()}>
+                        <input type="checkbox" className="perm-check"
+                          checked={selected.has(d.sn)}
+                          onChange={() => toggleSelect(d.sn)} />
+                      </td>
+                    )}
                     <td>{d.sn}</td><td>{d.name}</td><td>{d.type}</td>
                     <td><span className={`badge ${LC_BADGE[d.lifecycle]}`}>{d.lifecycle}</span></td>
                     <td><span className={`badge ${CONN_BADGE[d.conn]}`}>{d.conn}</span></td>
