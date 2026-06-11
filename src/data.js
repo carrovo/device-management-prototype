@@ -126,6 +126,12 @@ export const PROJECT_DATA = {
   },
 }
 
+// ══════════ 演示登录身份 ══════════
+export const DEMO_USERS = [
+  { name: '张三', role: '管理员', avatar: '张' },
+  { name: '赵六', role: '游客',   avatar: '赵' },
+]
+
 // 状态徽章映射
 export const LC_BADGE = { '装配': 'b-recorded', '生产注册': 'b-recorded', '云端注册': 'b-activated', '在线运营': 'b-activated', '退役': 'b-retired' }
 export const CONN_BADGE = { '在线': 'b-online', '离线': 'b-offline', '未连接': 'b-nc' }

@@ -1,3 +1,5 @@
+import { DEMO_USERS } from '../data.js'
+
 function FeishuIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{flexShrink:0}}>
@@ -8,6 +10,8 @@ function FeishuIcon() {
     </svg>
   )
 }
+
+const [admin, guest] = DEMO_USERS
 
 export default function Login({ onLogin }) {
   return (
@@ -21,11 +25,11 @@ export default function Login({ onLogin }) {
           <div className="login-logo-sub">设备全生命周期管理 · 智平方</div>
         </div>
         <div className="login-card">
-          <button className="feishu-btn" onClick={onLogin}>
+          <button className="feishu-btn" onClick={() => onLogin(admin)}>
             <FeishuIcon />
             使用飞书账号登录
           </button>
-          <div className="feishu-hint">推荐 · 首次登录默认游客权限</div>
+          <div className="feishu-hint">推荐 · 飞书登录默认以管理员身份进入</div>
           <div className="divider">
             <div className="divider-line" /><span className="divider-text">或使用账号密码</span><div className="divider-line" />
           </div>
@@ -33,7 +37,28 @@ export default function Login({ onLogin }) {
           <input className="login-input" placeholder="请输入账号" />
           <div className="login-label">密码</div>
           <input className="login-input" type="password" placeholder="请输入密码" />
-          <button className="login-submit" onClick={onLogin}>登 录</button>
+          <button className="login-submit" onClick={() => onLogin(admin)}>登 录</button>
+
+          <div className="divider" style={{ marginTop: 18 }}>
+            <div className="divider-line" /><span className="divider-text">原型演示 · 快捷切换身份</span><div className="divider-line" />
+          </div>
+          <div className="demo-login-row">
+            <button className="demo-login-btn demo-admin" onClick={() => onLogin(admin)}>
+              <div className="demo-avatar demo-avatar-admin">张</div>
+              <div>
+                <div className="demo-name">张三</div>
+                <div className="demo-role">管理员 · 全部权限</div>
+              </div>
+            </button>
+            <button className="demo-login-btn demo-guest" onClick={() => onLogin(guest)}>
+              <div className="demo-avatar demo-avatar-guest">赵</div>
+              <div>
+                <div className="demo-name">赵六</div>
+                <div className="demo-role">游客 · 只读权限</div>
+              </div>
+            </button>
+          </div>
+
           <div className="login-hint">仅限智平方内部人员使用</div>
         </div>
       </div>

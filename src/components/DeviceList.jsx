@@ -4,7 +4,7 @@ import Csel from './Csel.jsx'
 import Modal from './Modal.jsx'
 import { IconSearch, IconPlus, IconUpload, IconDownload, IconReset, IconCloud, IconChevronRight, IconX, IconChevronDown } from './Icons.jsx'
 
-export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEdit, onAdd, toast }) {
+export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEdit, onAdd, isGuest, toast }) {
   const [tab, setTab] = useState('list')
   const [keyword, setKeyword] = useState('')
   const [fLC, setFLC] = useState('')
@@ -103,8 +103,8 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
           )}
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-          <button className="bs" onClick={() => setShowImport(true)}><IconUpload /> 批量导入</button>
-          <button className="bp" onClick={onAdd}><IconPlus stroke="white" strokeWidth="2.5" /> 添加设备</button>
+          <button className="bs" disabled={isGuest} onClick={() => !isGuest && setShowImport(true)}><IconUpload /> 批量导入</button>
+          <button className="bp" disabled={isGuest} onClick={() => !isGuest && onAdd()}><IconPlus stroke="white" strokeWidth="2.5" /> 添加设备</button>
         </div>
       </div>
 
@@ -198,9 +198,9 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
                     <td>
                       <button className="btn-link" onClick={() => onDetail(d)}>详情</button>
                       <span className="sep">|</span>
-                      <button className="btn-link" onClick={() => onEdit(d)}>编辑</button>
+                      <button className={isGuest ? 'btn-link-disabled' : 'btn-link'} disabled={isGuest} onClick={() => !isGuest && onEdit(d)}>编辑</button>
                       <span className="sep">|</span>
-                      <button className="btn-link-danger" onClick={() => toast('原型演示：删除设备需二次确认，正式版本将弹出确认框')}>删除</button>
+                      <button className={isGuest ? 'btn-link-disabled' : 'btn-link-danger'} disabled={isGuest} onClick={() => !isGuest && toast('原型演示：删除设备需二次确认，正式版本将弹出确认框')}>删除</button>
                     </td>
                   </tr>
                   )

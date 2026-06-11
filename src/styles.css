@@ -31,6 +31,19 @@ body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;backgro
 .login-submit{width:100%;height:38px;background:var(--accent);color:#fff;border:none;border-radius:var(--rm);font-size:13px;font-weight:500;cursor:pointer;margin-top:2px}
 .login-submit:hover{opacity:.9}
 .login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:14px}
+.demo-login-row{display:flex;gap:10px;margin-bottom:6px}
+.demo-login-btn{flex:1;display:flex;align-items:center;gap:10px;padding:10px 12px;border:.5px solid var(--border);border-radius:var(--rm);background:var(--bg2);cursor:pointer;font-family:inherit;text-align:left;transition:border-color .15s,background .15s}
+.demo-login-btn:hover{background:var(--bg3);border-color:var(--border2)}
+.demo-admin:hover{border-color:var(--accent)}
+.demo-guest:hover{border-color:var(--info)}
+.demo-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.demo-avatar-admin{background:var(--accent)}
+.demo-avatar-guest{background:var(--info)}
+.demo-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:1px}
+.demo-role{font-size:11px;color:var(--text3)}
+.guest-banner{background:#FFFBEB;border-bottom:.5px solid #F5C977;padding:9px 24px;font-size:12px;color:#7D5A00;display:flex;align-items:center;gap:6px;flex-shrink:0}
+button:disabled{opacity:0.4;cursor:not-allowed}
+.btn-link-disabled{color:var(--text3);background:none;border:none;font-size:12px;cursor:not-allowed;padding:0;font-family:inherit;opacity:0.5}
 
 /* SHELL */
 .app-shell{display:flex;height:100vh;overflow:hidden}

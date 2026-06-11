@@ -12,11 +12,14 @@ import AlertCenter from './components/AlertCenter.jsx'
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
-  const [page, setPage] = useState('devices')          // 当前页面
+  const [currentUser, setCurrentUser] = useState(null)
+  const [page, setPage] = useState('devices')
   const [currentProj, setCurrentProj] = useState('遥操项目')
   const [selectedDevice, setSelectedDevice] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
   const [toastMsg, setToastMsg] = useState('')
+
+  const isGuest = currentUser?.role === '游客'
 
   const toast = useCallback((msg) => {
     setToastMsg(msg)
@@ -33,18 +36,26 @@ export default function App() {
     'role-center': 'role-center',
   }
 
-  if (!loggedIn) return <Login onLogin={() => setLoggedIn(true)} />
+  if (!loggedIn) return <Login onLogin={(user) => { setCurrentUser(user); setLoggedIn(true) }} />
 
   return (
     <div className="app-shell">
-      <Sidebar activeNav={navOf[page]} onNav={setPage} onLogout={() => { setLoggedIn(false); setPage('devices') }} />
+      <Sidebar activeNav={navOf[page]} onNav={setPage} currentUser={currentUser} isGuest={isGuest}
+        onLogout={() => { setLoggedIn(false); setCurrentUser(null); setPage('devices') }} />
       <main className="main">
+        {isGuest && (
+          <div className="guest-banner">
+            <span>⚠</span>
+            当前以<strong style={{ margin: '0 4px' }}>游客</strong>身份登录，仅可查看数据，如需操作请联系管理员。
+          </div>
+        )}
         {page === 'devices' && (
           <DeviceList
             currentProj={currentProj} setCurrentProj={setCurrentProj}
             onDetail={(d) => { setSelectedDevice(d); setPage('device-detail') }}
             onEdit={(d) => { setSelectedDevice(d); setPage('device-edit') }}
             onAdd={() => setPage('device-add')}
+            isGuest={isGuest}
             toast={toast}
           />
         )}
