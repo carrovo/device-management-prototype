@@ -30,3 +30,4 @@ export const IconAlert = I(<><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94
 export const IconCloud = I(<><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></>)
 export const IconReset = I(<><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.79"/></>)
 export const IconFlow = I(<><circle cx="5" cy="6" r="3"/><circle cx="19" cy="18" r="3"/><path d="M5 9v3a3 3 0 0 0 3 3h8"/></>)
+export const IconHistory = I(<><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></>)

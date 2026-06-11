@@ -11,9 +11,12 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
   const [fConn, setFConn] = useState('')
   const [fType, setFType] = useState('')
   const [fLog, setFLog] = useState('')
-  const [applied, setApplied] = useState(null)  // 已执行的筛选条件
+  const [applied, setApplied] = useState(null)
   const [showImport, setShowImport] = useState(false)
   const [projOpen, setProjOpen] = useState(false)
+  const [selected, setSelected] = useState(new Set())
+  const [showBatchProj, setShowBatchProj] = useState(false)
+  const [batchProjTarget, setBatchProjTarget] = useState('')
 
   const data = PROJECT_DATA[currentProj]
   const total = data.devices.length
@@ -54,7 +57,19 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
   const switchProj = (name) => {
     setCurrentProj(name)
     doReset()
+    setSelected(new Set())
     setProjOpen(false)
+  }
+
+  const toggleSelect = (sn) => {
+    const next = new Set(selected)
+    next.has(sn) ? next.delete(sn) : next.add(sn)
+    setSelected(next)
+  }
+  const toggleAll = () => {
+    setSelected(selected.size === devices.length && devices.length > 0
+      ? new Set()
+      : new Set(devices.map(d => d.sn)))
   }
 
   const tags = applied ? [
@@ -133,19 +148,43 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
             ))}
           </div>
 
+          {/* 批量操作栏 */}
+          {selected.size > 0 && (
+            <div className="batch-bar">
+              <span className="batch-bar-count">已选 {selected.size} 台设备</span>
+              <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
+                <button className="bs" onClick={() => { setBatchProjTarget(''); setShowBatchProj(true) }}>修改所属项目</button>
+                <button className="bs" onClick={() => { toast(`原型演示：已导出 ${selected.size} 台设备信息为 xlsx 文件`); setSelected(new Set()) }}>
+                  <IconDownload /> 批量导出
+                </button>
+                <button className="bs" style={{ color: 'var(--text3)' }} onClick={() => setSelected(new Set())}>取消选择</button>
+              </div>
+            </div>
+          )}
+
           <div className="tw">
             <table>
               <thead><tr>
+                <th style={{ width: 36 }}>
+                  <input type="checkbox" className="perm-check"
+                    checked={devices.length > 0 && selected.size === devices.length}
+                    onChange={toggleAll} />
+                </th>
                 <th>SN 号</th><th>名称</th><th>设备类型</th><th>生命周期状态</th><th>连接状态</th>
                 <th>告警</th><th>电量</th><th>系统版本</th><th>注册时间</th><th>操作</th>
               </tr></thead>
               <tbody>
                 {devices.length === 0 ? (
-                  <tr><td colSpan="10" className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
+                  <tr><td colSpan="11" className="empty-row">暂无符合条件的设备，可尝试调整筛选条件或点击"重置"</td></tr>
                 ) : devices.map(d => {
                   const ac = alertCount(d)
                   return (
-                  <tr key={d.sn}>
+                  <tr key={d.sn} className={selected.has(d.sn) ? 'row-selected' : ''}>
+                    <td onClick={e => e.stopPropagation()}>
+                      <input type="checkbox" className="perm-check"
+                        checked={selected.has(d.sn)}
+                        onChange={() => toggleSelect(d.sn)} />
+                    </td>
                     <td>{d.sn}</td><td>{d.name}</td><td>{d.type}</td>
                     <td><span className={`badge ${LC_BADGE[d.lifecycle]}`}>{d.lifecycle}</span></td>
                     <td><span className={`badge ${CONN_BADGE[d.conn]}`}>{d.conn}</span></td>
@@ -203,6 +242,32 @@ export default function DeviceList({ currentProj, setCurrentProj, onDetail, onEd
             注册日志记录设备上电后向平台发起的云端自动注册请求。注册失败的常见原因：SN 号未在系统中预先录入、网络认证失败。
           </div>
         </>
+      )}
+
+      {showBatchProj && (
+        <Modal title={`批量修改所属项目（${selected.size} 台）`} size="modal-sm" onClose={() => setShowBatchProj(false)}>
+          <div style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 14 }}>
+            选择目标项目后，所选设备将整体迁移至该项目下。
+          </div>
+          <div className="modal-input-label">目标项目<span className="req">*</span></div>
+          <select className="fi" value={batchProjTarget} onChange={e => setBatchProjTarget(e.target.value)}
+            style={{ width: '100%', marginBottom: 16, height: 36, borderRadius: 'var(--rm)', border: '.5px solid var(--border)', background: 'var(--bg2)', padding: '0 10px', fontSize: 12, fontFamily: 'inherit', color: 'var(--text)' }}>
+            <option value="">请选择目标项目</option>
+            {Object.keys(PROJECT_DATA).map(p => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+          <div className="ff" style={{ paddingTop: '0.75rem' }}>
+            <button className="bs" onClick={() => setShowBatchProj(false)}>取消</button>
+            <button className="bp" disabled={!batchProjTarget}
+              style={{ opacity: batchProjTarget ? 1 : 0.45 }}
+              onClick={() => {
+                setShowBatchProj(false)
+                setSelected(new Set())
+                toast(`原型演示：已将 ${selected.size} 台设备迁移至「${batchProjTarget}」`)
+              }}>确认修改</button>
+          </div>
+        </Modal>
       )}
 
       {showImport && (

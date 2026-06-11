@@ -113,6 +113,11 @@ body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;backgro
 
 /* TABLE */
 .tw{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rm);overflow:hidden;margin-bottom:10px}
+.row-selected{background:#F0F8F3}
+.batch-bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#F0F8F3;border:.5px solid #A8D9B8;border-radius:var(--rm);margin-bottom:10px;font-size:12px}
+.batch-bar-count{font-weight:600;color:var(--accent)}
+.changelog-toggle{cursor:pointer;user-select:none}
+.changelog-toggle:hover{opacity:.8}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead tr{background:var(--bg2);border-bottom:.5px solid var(--border)}
 thead th{padding:9px 10px;text-align:left;font-weight:500;font-size:11px;color:var(--text2);white-space:nowrap}

@@ -8,6 +8,7 @@ import { Projects, ProjectDetail } from './components/Projects.jsx'
 import DeviceTypes from './components/DeviceTypes.jsx'
 import UserCenter from './components/UserCenter.jsx'
 import RoleCenter from './components/RoleCenter.jsx'
+import AlertCenter from './components/AlertCenter.jsx'
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -25,6 +26,7 @@ export default function App() {
   // 导航高亮归属
   const navOf = {
     'devices': 'devices', 'device-detail': 'devices', 'device-add': 'devices', 'device-edit': 'devices',
+    'alert-center': 'alert-center',
     'projects': 'projects', 'project-detail': 'projects',
     'device-types': 'device-types',
     'user-center': 'user-center',
@@ -69,6 +71,7 @@ export default function App() {
             onDeviceDetail={(d) => { setSelectedDevice(d); setCurrentProj(selectedProject); setPage('device-detail') }}
             toast={toast} />
         )}
+        {page === 'alert-center' && <AlertCenter toast={toast} />}
         {page === 'device-types' && <DeviceTypes toast={toast} />}
         {page === 'user-center' && <UserCenter toast={toast} />}
         {page === 'role-center' && <RoleCenter toast={toast} />}

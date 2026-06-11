@@ -1,8 +1,9 @@
-import { IconDevice, IconFolder, IconBox, IconUsers, IconShield, IconLogout } from './Icons.jsx'
+import { IconDevice, IconFolder, IconBox, IconUsers, IconShield, IconLogout, IconAlert } from './Icons.jsx'
 
 const NAV = [
   { section: '设备', items: [
     { key: 'devices', label: '设备管理', icon: IconDevice },
+    { key: 'alert-center', label: '告警中心', icon: IconAlert },
     { key: 'projects', label: '项目管理', icon: IconFolder },
     { key: 'device-types', label: '设备类型', icon: IconBox },
   ]},

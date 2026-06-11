@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { LC_BADGE, CONN_BADGE, LIFECYCLE_STAGES, HEALTH_MODULES } from '../data.js'
-import { IconChevronLeft, IconEdit, IconTrash, IconFile, IconCpu, IconActivity, IconHeart, IconFlow, IconAlert } from './Icons.jsx'
+import { IconChevronLeft, IconEdit, IconTrash, IconFile, IconCpu, IconActivity, IconHeart, IconFlow, IconAlert, IconHistory, IconChevronDown } from './Icons.jsx'
 import Modal from './Modal.jsx'
 
 const RETIRE_STAGE = '退役'
@@ -11,6 +11,7 @@ export default function DeviceDetail({ device, currentProj, onBack, onEdit, toas
   const [assignee, setAssignee] = useState(device.assignee || {})
   const [showAdvance, setShowAdvance] = useState(false)
   const [showRetire, setShowRetire] = useState(false)
+  const [showChangelog, setShowChangelog] = useState(false)
 
   const stageIdx = LIFECYCLE_STAGES.indexOf(lifecycle)
   const isRetired = lifecycle === RETIRE_STAGE
@@ -103,6 +104,35 @@ export default function DeviceDetail({ device, currentProj, onBack, onEdit, toas
         <div className="dr"><span className="dk">末端配置</span><span className="dv">{d.endEffector}</span></div>
         <div className="dr"><span className="dk">相机类型</span><span className="dv">{d.cameraType}</span></div>
         <div className="dr"><span className="dk">相机 SN</span><span className="dv mono">{d.cameraSN}</span></div>
+      </div>
+
+      {/* 变更记录 */}
+      <div className="card">
+        <div className="sh changelog-toggle" onClick={() => setShowChangelog(!showChangelog)}>
+          <IconHistory /> 变更记录
+          <span className="sh-note">{d.changeLog?.length || 0} 条</span>
+          <IconChevronDown style={{ marginLeft: 'auto', width: 14, height: 14, transition: 'transform .2s', transform: showChangelog ? 'rotate(180deg)' : 'none' }} />
+        </div>
+        {showChangelog && (
+          <div className="tw" style={{ marginTop: 8 }}>
+            <table>
+              <thead><tr><th>变更时间</th><th>变更字段</th><th>变更前</th><th>变更后</th><th>操作人</th></tr></thead>
+              <tbody>
+                {(d.changeLog || []).length === 0 ? (
+                  <tr><td colSpan="5" className="empty-row">暂无变更记录</td></tr>
+                ) : (d.changeLog || []).map((r, i) => (
+                  <tr key={i}>
+                    <td style={{ fontSize: 11 }}>{r.time}</td>
+                    <td>{r.field}</td>
+                    <td style={{ color: 'var(--text3)', fontSize: 11 }}>{r.from}</td>
+                    <td style={{ fontWeight: 500 }}>{r.to}</td>
+                    <td style={{ fontSize: 11, color: 'var(--text2)' }}>{r.operator}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* 健康状态 */}
