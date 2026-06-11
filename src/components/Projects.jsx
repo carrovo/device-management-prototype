@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PROJECT_DATA } from '../data.js'
+import { PROJECT_DATA, LC_BADGE, CONN_BADGE } from '../data.js'
 import Modal from './Modal.jsx'
 import { IconPlus, IconEdit, IconTrash, IconChevronLeft, IconFile, IconDevice, IconAlert } from './Icons.jsx'
 
@@ -79,8 +79,10 @@ export function Projects({ onOpen, toast }) {
   )
 }
 
-export function ProjectDetail({ name, onBack, toast }) {
+export function ProjectDetail({ name, onBack, onDeviceDetail, toast }) {
   const d = PROJECT_DATA[name]
+  const alertCount = (dev) => !dev.health ? 0 : Object.values(dev.health).filter(v => v === '异常').length
+
   return (
     <div className="page">
       <button className="back-btn" onClick={onBack}><IconChevronLeft strokeWidth="2.5" /> 返回项目管理</button>
@@ -102,11 +104,40 @@ export function ProjectDetail({ name, onBack, toast }) {
       </div>
       <div className="card">
         <div className="sh"><IconDevice /> 设备概况<span className="sh-note">本项目下的设备统计</span></div>
-        <div className="stat-row" style={{ marginBottom: 0 }}>
+        <div className="stat-row">
           <div className="stat-chip"><div><div className="stat-num">{d.devices.length}</div><div className="stat-label">设备总数</div></div></div>
           <div className="stat-chip"><div><div className="stat-num">{d.devices.filter(x => x.lifecycle === '在线运营').length}</div><div className="stat-label">在线运营</div></div></div>
           <div className="stat-chip"><div><div className="stat-num">{d.devices.filter(x => x.conn === '在线').length}</div><div className="stat-label">当前在线</div></div></div>
-          <div className="stat-chip"><div><div className="stat-num">{d.devices.filter(x => x.lifecycle === '生产注册').length}</div><div className="stat-label">生产注册</div></div></div>
+          <div className="stat-chip stat-chip-warn"><div><div className="stat-num stat-num-warn">{d.devices.filter(x => x.conn === '离线').length}</div><div className="stat-label">当前离线</div></div></div>
+        </div>
+        <div className="sh" style={{ marginTop: 4 }}>项目设备列表<span className="sh-note">点击设备行可查看详情</span></div>
+        <div className="tw" style={{ marginTop: 8 }}>
+          <table>
+            <thead>
+              <tr>
+                <th>SN 号</th><th>名称</th><th>设备类型</th><th>生命周期状态</th><th>连接状态</th><th>告警</th>
+              </tr>
+            </thead>
+            <tbody>
+              {d.devices.map(dev => {
+                const ac = alertCount(dev)
+                return (
+                  <tr key={dev.sn} style={{ cursor: 'pointer' }}
+                    onClick={() => onDeviceDetail ? onDeviceDetail(dev) : toast('原型演示：点击跳转设备详情')}>
+                    <td>{dev.sn}</td>
+                    <td style={{ fontWeight: 500 }}>{dev.name}</td>
+                    <td>{dev.type}</td>
+                    <td><span className={`badge ${LC_BADGE[dev.lifecycle]}`}>{dev.lifecycle}</span></td>
+                    <td><span className={`badge ${CONN_BADGE[dev.conn]}`}>{dev.conn}</span></td>
+                    <td>{ac > 0
+                      ? <span className="badge b-error">{ac} 项</span>
+                      : <span style={{ color: 'var(--text3)', fontSize: 11 }}>—</span>}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
