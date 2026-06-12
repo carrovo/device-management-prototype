@@ -7,7 +7,7 @@ export default function DeviceTypes({ toast }) {
   const [showAdd, setShowAdd]       = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
-  const [expandedId, setExpandedId] = useState(null)
+  const [expandedIds, setExpandedIds] = useState(new Set())
   const [draftModules, setDraftModules] = useState([])
 
   const countByType = {}
@@ -29,7 +29,11 @@ export default function DeviceTypes({ toast }) {
   const updateModule = (i, field, val) =>
     setDraftModules(draftModules.map((m, idx) => idx === i ? { ...m, [field]: val } : m))
 
-  const toggleExpand = (id) => setExpandedId(expandedId === id ? null : id)
+  const toggleExpand = (id) => {
+    const next = new Set(expandedIds)
+    next.has(id) ? next.delete(id) : next.add(id)
+    setExpandedIds(next)
+  }
 
   return (
     <div className="page">
@@ -58,7 +62,7 @@ export default function DeviceTypes({ toast }) {
           </thead>
           <tbody>
             {DEVICE_TYPES.map(t => {
-              const isOpen = expandedId === t.id
+              const isOpen = expandedIds.has(t.id)
               const mods = t.modules || []
               return [
                 <tr key={t.id}>
