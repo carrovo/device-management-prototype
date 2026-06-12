@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { PROJECT_DATA, ALERT_DESC, HEALTH_MODULES } from '../data.js'
 import Csel from './Csel.jsx'
-import { IconAlert, IconX } from './Icons.jsx'
+import { IconX } from './Icons.jsx'
 
-// 从所有项目 health 数据派生告警列表（模块级别的确定性时间戳）
 const ALERT_TIMES = {
-  'SN-20240101:存储模块':  '2024-06-08 14:32:07',
-  'SN-AP-002:相机模块':    '2024-06-09 09:15:44',
+  'SN-20240101:存储模块': '2024-06-08 14:32:07',
+  'SN-AP-002:相机模块':   '2024-06-09 09:15:44',
 }
 
 const ALL_ALERTS = (() => {
@@ -30,17 +29,25 @@ const ALL_ALERTS = (() => {
   return rows
 })()
 
-const ALL_PROJECTS = Object.keys(PROJECT_DATA)
+const ALL_PROJECTS   = Object.keys(PROJECT_DATA)
+const ALL_DEV_NAMES  = [...new Set(
+  Object.values(PROJECT_DATA).flatMap(pd => pd.devices.map(d => d.name))
+)].sort()
 
 export default function AlertCenter({ toast }) {
-  const [fProj, setFProj] = useState('')
+  const [fProj,   setFProj]   = useState('')
   const [fModule, setFModule] = useState('')
+  const [fDevice, setFDevice] = useState('')
 
+  const hasFilter = fProj || fModule || fDevice
   const alerts = ALL_ALERTS.filter(a => {
-    if (fProj && a.proj !== fProj) return false
+    if (fProj   && a.proj   !== fProj)   return false
     if (fModule && a.module !== fModule) return false
+    if (fDevice && a.name   !== fDevice) return false
     return true
   })
+
+  const clearAll = () => { setFProj(''); setFModule(''); setFDevice('') }
 
   return (
     <div className="page">
@@ -57,10 +64,11 @@ export default function AlertCenter({ toast }) {
       </div>
 
       <div className="tbar" style={{ marginBottom: '0.75rem' }}>
-        <Csel value={fProj} placeholder="按所属项目筛选" options={ALL_PROJECTS} onChange={setFProj} highlight />
-        <Csel value={fModule} placeholder="按告警模块筛选" options={HEALTH_MODULES} onChange={setFModule} highlight />
-        {(fProj || fModule) && (
-          <span className="filter-tag" onClick={() => { setFProj(''); setFModule('') }}>
+        <Csel value={fProj}   placeholder="按所属项目筛选" options={ALL_PROJECTS}   onChange={setFProj}   highlight />
+        <Csel value={fModule} placeholder="按告警模块筛选" options={HEALTH_MODULES}  onChange={setFModule} highlight />
+        <Csel value={fDevice} placeholder="按设备筛选"     options={ALL_DEV_NAMES}   onChange={setFDevice} highlight />
+        {hasFilter && (
+          <span className="filter-tag" onClick={clearAll}>
             清除筛选<IconX strokeWidth="3" />
           </span>
         )}
@@ -97,7 +105,7 @@ export default function AlertCenter({ toast }) {
         </table>
       </div>
       <div className="pg">
-        <span>共 {alerts.length} 条{fProj || fModule ? `（全部 ${ALL_ALERTS.length} 条）` : ''}</span>
+        <span>共 {alerts.length} 条{hasFilter ? `（全部 ${ALL_ALERTS.length} 条）` : ''}</span>
       </div>
     </div>
   )

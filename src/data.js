@@ -1,8 +1,34 @@
 // ══════════ 设备类型（含 URDF 配置）══════════
 export const DEVICE_TYPES = [
-  { id: 'dt-1', name: 'Alpha-2', urdf: 'alpha2_v3.urdf', desc: '双臂轮式机器人，遥操与巡逻场景', created: '2023-09-15' },
-  { id: 'dt-2', name: 'Beta-1',  urdf: 'beta1_v1.urdf',  desc: '单臂固定底座机器人，桌面操作场景', created: '2023-10-20' },
-  { id: 'dt-3', name: 'Gamma-1', urdf: 'gamma1_v2.urdf', desc: '清洁作业机器人，大面积地面场景', created: '2024-01-08' },
+  {
+    id: 'dt-1', name: 'Alpha-2', urdf: 'alpha2_v3.urdf', desc: '双臂轮式机器人，遥操与巡逻场景', created: '2023-09-15',
+    modules: [
+      { name: '左臂',      spec: 'RM-65B 6-DOF 协作臂',        config: 'left_arm.urdf' },
+      { name: '右臂',      spec: 'RM-65B 6-DOF 协作臂',        config: 'right_arm.urdf' },
+      { name: '底盘',      spec: '四轮差速移动底盘',             config: 'chassis.urdf' },
+      { name: '相机（前）', spec: 'Intel RealSense D435i',      config: 'cam_front.yaml' },
+      { name: '相机（后）', spec: 'Intel RealSense D435i',      config: 'cam_rear.yaml' },
+      { name: 'IMU 传感器', spec: 'Xsens MTi-30 惯性测量单元', config: 'imu.yaml' },
+    ],
+  },
+  {
+    id: 'dt-2', name: 'Beta-1', urdf: 'beta1_v1.urdf', desc: '单臂固定底座机器人，桌面操作场景', created: '2023-10-20',
+    modules: [
+      { name: '单臂',      spec: 'RM-75B 7-DOF 协作臂',        config: 'arm.urdf' },
+      { name: '底座',      spec: '固定安装钢制底座',             config: 'base.urdf' },
+      { name: '相机',      spec: 'Intel RealSense D435i',      config: 'cam.yaml' },
+      { name: '力矩传感器', spec: 'ATI Gamma SI-65-5',          config: 'ft_sensor.yaml' },
+    ],
+  },
+  {
+    id: 'dt-3', name: 'Gamma-1', urdf: 'gamma1_v2.urdf', desc: '清洁作业机器人，大面积地面场景', created: '2024-01-08',
+    modules: [
+      { name: '底盘',     spec: '全向移动清洁底盘',          config: 'chassis.urdf' },
+      { name: '清洁模块', spec: '双滚筒吸扫一体单元',        config: 'cleaner.urdf' },
+      { name: '相机',     spec: 'RGB 摄像头 IMX415',         config: 'cam.yaml' },
+      { name: '激光雷达', spec: 'SICK LiDAR TiM571',         config: 'lidar.yaml' },
+    ],
+  },
 ]
 
 // ══════════ 角色与权限 ══════════
