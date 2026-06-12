@@ -164,6 +164,8 @@ tbody td{padding:9px 10px;font-size:12px;white-space:nowrap}
 .b-user{background:#D3D1C7;color:#444441}
 .b-ok{background:#C0DD97;color:#27500A}
 .b-fail{background:#F7C1C1;color:#791F1F}
+.b-warn{background:#FFE4A0;color:#7A4D00}
+.b-info{background:#C5DCFA;color:#1A4A80}
 .b-normal{background:#C0DD97;color:#27500A}
 .b-error{background:#F7C1C1;color:#791F1F}
 .sep{color:var(--border2);margin:0 4px}
