@@ -9,6 +9,7 @@ import DeviceTypes from './components/DeviceTypes.jsx'
 import UserCenter from './components/UserCenter.jsx'
 import RoleCenter from './components/RoleCenter.jsx'
 import AlertCenter from './components/AlertCenter.jsx'
+import Placeholder from './components/Placeholder.jsx'
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -30,6 +31,9 @@ export default function App() {
   const navOf = {
     'devices': 'devices', 'device-detail': 'devices', 'device-add': 'devices', 'device-edit': 'devices',
     'alert-center': 'alert-center',
+    'factory-inspect': 'factory-inspect',
+    'installation': 'installation',
+    'repair-support': 'repair-support',
     'projects': 'projects', 'project-detail': 'projects',
     'device-types': 'device-types',
     'user-center': 'user-center',
@@ -84,7 +88,10 @@ export default function App() {
             isGuest={isGuest}
             toast={toast} />
         )}
-        {page === 'alert-center' && <AlertCenter toast={toast} />}
+        {page === 'alert-center'    && <AlertCenter toast={toast} />}
+        {page === 'factory-inspect' && <Placeholder title="出厂检验" />}
+        {page === 'installation'    && <Placeholder title="安装调试" />}
+        {page === 'repair-support'  && <Placeholder title="维修客诉" />}
         {page === 'device-types' && <DeviceTypes toast={toast} />}
         {page === 'user-center' && <UserCenter toast={toast} />}
         {page === 'role-center' && <RoleCenter toast={toast} />}

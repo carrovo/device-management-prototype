@@ -80,7 +80,7 @@ export const ALERT_DESC = {
 }
 
 // ══════════ 生命周期阶段 ══════════
-export const LIFECYCLE_STAGES = ['装配', '生产注册', '云端注册', '在线运营', '退役']
+export const LIFECYCLE_STAGES = ['来料检验', '装配', '测试', '老化', '终测', '交付', '在线运营', '退役']
 
 // ══════════ 项目与设备 ══════════
 export const PROJECT_DATA = {
@@ -93,7 +93,7 @@ export const PROJECT_DATA = {
         reg: '2024-01-01', regTime: '2024-01-01 09:32:14', deviceId: 'dev_7f3a92c1',
         sysVersion: 'v1.2.0', endEffector: '夹爪 A型',
         cameraSN: 'CAM-00312', cameraType: '深度相机 D435i',
-        assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' },
+        assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' },
         health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '异常', '网络模块': '正常', '末端执行器': '正常' },
         battery: '87%', storage: '128G / 256G',
         changeLog: [
@@ -107,15 +107,15 @@ export const PROJECT_DATA = {
         reg: '2024-02-15', regTime: '2024-02-15 14:20:08', deviceId: 'dev_8a4b03d2',
         sysVersion: 'v1.1.3', endEffector: '夹爪 B型',
         cameraSN: 'CAM-00415', cameraType: '深度相机 D435i',
-        assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' },
+        assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' },
         health: null, battery: null, storage: null,
       },
       {
-        sn: 'SN-20240310', name: '机器人-03', type: 'Beta-1', lifecycle: '生产注册', conn: '未连接',
+        sn: 'SN-20240310', name: '机器人-03', type: 'Beta-1', lifecycle: '测试', conn: '未连接',
         reg: '2024-03-10', regTime: '2024-03-10 11:05:40', deviceId: 'dev_9c5d14e3',
         sysVersion: 'v1.2.0', endEffector: '吸盘组件',
         cameraSN: 'CAM-00520', cameraType: '深度相机 D455',
-        assignee: { 装配: '李四', 生产注册: '李四' },
+        assignee: { 来料检验: '王五（质检）', 装配: '李四' },
         health: null, battery: null, storage: null,
       },
     ],
@@ -128,11 +128,11 @@ export const PROJECT_DATA = {
     desc: '深圳机场场内巡逻与旅客引导机器人项目',
     created: '2023-11-01',
     devices: [
-      { sn: 'SN-AP-001', name: '机场-巡逻01', type: 'Alpha-2', lifecycle: '在线运营', conn: '在线', reg: '2023-11-05', regTime: '2023-11-05 08:00:12', deviceId: 'dev_ap001aa1', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10001', cameraType: '深度相机 D435i', assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '92%', storage: '96G / 256G' },
-      { sn: 'SN-AP-002', name: '机场-巡逻02', type: 'Alpha-2', lifecycle: '在线运营', conn: '在线', reg: '2023-11-05', regTime: '2023-11-05 08:15:33', deviceId: 'dev_ap002bb2', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10002', cameraType: '深度相机 D435i', assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' }, health: { '关节模块': '正常', '相机模块': '异常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '64%', storage: '180G / 256G' },
-      { sn: 'SN-AP-003', name: '机场-引导01', type: 'Beta-1', lifecycle: '在线运营', conn: '在线', reg: '2023-12-01', regTime: '2023-12-01 10:30:00', deviceId: 'dev_ap003cc3', sysVersion: 'v1.1.8', endEffector: '夹爪 A型', cameraSN: 'CAM-10003', cameraType: '深度相机 D455', assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '78%', storage: '110G / 256G' },
-      { sn: 'SN-AP-004', name: '机场-引导02', type: 'Beta-1', lifecycle: '在线运营', conn: '离线', reg: '2024-01-10', regTime: '2024-01-10 08:30:00', deviceId: 'dev_ap004dd4', sysVersion: 'v1.1.8', endEffector: '夹爪 A型', cameraSN: 'CAM-10004', cameraType: '深度相机 D455', assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' }, health: null, battery: null, storage: null },
-      { sn: 'SN-AP-005', name: '机场-清洁01', type: 'Gamma-1', lifecycle: '生产注册', conn: '未连接', reg: '2024-05-20', regTime: '2024-05-20 10:04:17', deviceId: 'dev_ap005ee5', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10005', cameraType: 'RGB相机 标准版', assignee: { 装配: '李四', 生产注册: '李四' }, health: null, battery: null, storage: null },
+      { sn: 'SN-AP-001', name: '机场-巡逻01', type: 'Alpha-2', lifecycle: '在线运营', conn: '在线', reg: '2023-11-05', regTime: '2023-11-05 08:00:12', deviceId: 'dev_ap001aa1', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10001', cameraType: '深度相机 D435i', assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '92%', storage: '96G / 256G' },
+      { sn: 'SN-AP-002', name: '机场-巡逻02', type: 'Alpha-2', lifecycle: '在线运营', conn: '在线', reg: '2023-11-05', regTime: '2023-11-05 08:15:33', deviceId: 'dev_ap002bb2', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10002', cameraType: '深度相机 D435i', assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' }, health: { '关节模块': '正常', '相机模块': '异常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '64%', storage: '180G / 256G' },
+      { sn: 'SN-AP-003', name: '机场-引导01', type: 'Beta-1',  lifecycle: '在线运营', conn: '在线', reg: '2023-12-01', regTime: '2023-12-01 10:30:00', deviceId: 'dev_ap003cc3', sysVersion: 'v1.1.8', endEffector: '夹爪 A型', cameraSN: 'CAM-10003', cameraType: '深度相机 D455', assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '78%', storage: '110G / 256G' },
+      { sn: 'SN-AP-004', name: '机场-引导02', type: 'Beta-1',  lifecycle: '在线运营', conn: '离线', reg: '2024-01-10', regTime: '2024-01-10 08:30:00', deviceId: 'dev_ap004dd4', sysVersion: 'v1.1.8', endEffector: '夹爪 A型', cameraSN: 'CAM-10004', cameraType: '深度相机 D455', assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' }, health: null, battery: null, storage: null },
+      { sn: 'SN-AP-005', name: '机场-清洁01', type: 'Gamma-1', lifecycle: '测试',     conn: '未连接', reg: '2024-05-20', regTime: '2024-05-20 10:04:17', deviceId: 'dev_ap005ee5', sysVersion: 'v1.2.0', endEffector: '无末端', cameraSN: 'CAM-10005', cameraType: 'RGB相机 标准版', assignee: { 来料检验: '王五（质检）', 装配: '李四' }, health: null, battery: null, storage: null },
     ],
     logs: [
       { time: '2024-05-20 10:04:17', sn: 'SN-AP-005', ip: '10.10.1.15', result: '成功', reason: '—' },
@@ -143,8 +143,8 @@ export const PROJECT_DATA = {
     desc: '智能魔方演示与交互机器人项目',
     created: '2024-02-01',
     devices: [
-      { sn: 'SN-ZMF-001', name: '魔方-操控01', type: 'Beta-1', lifecycle: '在线运营', conn: '在线', reg: '2024-03-18', regTime: '2024-03-18 09:00:00', deviceId: 'dev_zmf001f6', sysVersion: 'v1.2.0', endEffector: '夹爪 B型', cameraSN: 'CAM-20001', cameraType: '深度相机 D435i', assignee: { 装配: '李四', 生产注册: '李四', 云端注册: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '95%', storage: '60G / 256G' },
-      { sn: 'SN-ZMF-002', name: '魔方-操控02', type: 'Beta-1', lifecycle: '生产注册', conn: '未连接', reg: '2024-06-01', regTime: '2024-06-01 15:22:09', deviceId: 'dev_zmf002g7', sysVersion: 'v1.2.0', endEffector: '夹爪 B型', cameraSN: 'CAM-20002', cameraType: '深度相机 D435i', assignee: { 装配: '李四', 生产注册: '李四' }, health: null, battery: null, storage: null },
+      { sn: 'SN-ZMF-001', name: '魔方-操控01', type: 'Beta-1', lifecycle: '在线运营', conn: '在线', reg: '2024-03-18', regTime: '2024-03-18 09:00:00', deviceId: 'dev_zmf001f6', sysVersion: 'v1.2.0', endEffector: '夹爪 B型', cameraSN: 'CAM-20001', cameraType: '深度相机 D435i', assignee: { 来料检验: '王五（质检）', 装配: '李四', 测试: '李四', 老化: '系统自动', 终测: '李四', 交付: '张三（管理员）', 在线运营: '系统自动' }, health: { '关节模块': '正常', '相机模块': '正常', '电池模块': '正常', '存储模块': '正常', '网络模块': '正常', '末端执行器': '正常' }, battery: '95%', storage: '60G / 256G' },
+      { sn: 'SN-ZMF-002', name: '魔方-操控02', type: 'Beta-1', lifecycle: '测试',     conn: '未连接', reg: '2024-06-01', regTime: '2024-06-01 15:22:09', deviceId: 'dev_zmf002g7', sysVersion: 'v1.2.0', endEffector: '夹爪 B型', cameraSN: 'CAM-20002', cameraType: '深度相机 D435i', assignee: { 来料检验: '王五（质检）', 装配: '李四' }, health: null, battery: null, storage: null },
     ],
     logs: [
       { time: '2024-06-01 15:22:09', sn: 'SN-ZMF-002', ip: '172.16.0.5', result: '成功', reason: '—' },
@@ -159,5 +159,9 @@ export const DEMO_USERS = [
 ]
 
 // 状态徽章映射
-export const LC_BADGE = { '装配': 'b-recorded', '生产注册': 'b-recorded', '云端注册': 'b-activated', '在线运营': 'b-activated', '退役': 'b-retired' }
+export const LC_BADGE = {
+  '来料检验': 'b-recorded', '装配': 'b-recorded', '测试': 'b-recorded',
+  '老化': 'b-recorded',    '终测': 'b-recorded',  '交付': 'b-activated',
+  '在线运营': 'b-activated', '退役': 'b-retired',
+}
 export const CONN_BADGE = { '在线': 'b-online', '离线': 'b-offline', '未连接': 'b-nc' }

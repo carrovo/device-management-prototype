@@ -1,4 +1,4 @@
-import { IconDevice, IconFolder, IconBox, IconUsers, IconShield, IconLogout, IconAlert } from './Icons.jsx'
+import { IconDevice, IconFolder, IconBox, IconUsers, IconShield, IconLogout, IconAlert, IconClipboard, IconTool, IconMessageSq } from './Icons.jsx'
 
 const NAV = [
   { section: '设备', items: [
@@ -6,6 +6,11 @@ const NAV = [
     { key: 'alert-center', label: '告警中心', icon: IconAlert },
     { key: 'projects',     label: '项目管理', icon: IconFolder },
     { key: 'device-types', label: '设备类型', icon: IconBox,    guestHidden: true },
+  ]},
+  { section: '服务', items: [
+    { key: 'factory-inspect', label: '出厂检验', icon: IconClipboard },
+    { key: 'installation',    label: '安装调试', icon: IconTool },
+    { key: 'repair-support',  label: '维修客诉', icon: IconMessageSq },
   ]},
   { section: '系统', items: [
     { key: 'user-center',  label: '用户中心', icon: IconUsers,  guestHidden: true },
